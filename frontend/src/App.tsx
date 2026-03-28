@@ -1,5 +1,5 @@
-import { ClerkProvider, SignedIn, SignedOut } from '@clerk/clerk-react';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { ClerkProvider, SignedIn } from '@clerk/clerk-react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Landing from './pages/Landing';
 import Setup from './pages/Setup';
 import Home from './pages/Home';
