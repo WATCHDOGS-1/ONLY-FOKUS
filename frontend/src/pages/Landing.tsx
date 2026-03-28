@@ -19,88 +19,92 @@ export default function Landing() {
   };
 
   return (
-    <main className="relative flex flex-col min-h-screen overflow-hidden">
+    <main style={{ position: 'relative', display: 'flex', flexDirection: 'column', minHeight: '100vh', overflow: 'hidden' }}>
       {/* Background with orbs and grid */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 bg-dot-grid opacity-20" />
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#7C3AED]/20 rounded-full blur-[120px] animate-float-1" />
-        <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] bg-[#4338CA]/20 rounded-full blur-[100px] animate-float-2" />
-        <div className="absolute bottom-1/4 left-1/3 w-[600px] h-[600px] bg-[#6D28D9]/15 rounded-full blur-[140px] animate-float-3" />
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+        <div className="bg-dot-grid" style={{ position: 'absolute', inset: 0, opacity: 0.2 }} />
+        <div className="animate-float-1" style={{ position: 'absolute', top: '25%', left: '25%', width: '500px', height: '500px', backgroundColor: 'rgba(124,58,237,0.2)', borderRadius: '50%', filter: 'blur(120px)' }} />
+        <div className="animate-float-2" style={{ position: 'absolute', top: '50%', right: '25%', width: '400px', height: '400px', backgroundColor: 'rgba(67,56,202,0.2)', borderRadius: '50%', filter: 'blur(100px)' }} />
+        <div className="animate-float-3" style={{ position: 'absolute', bottom: '25%', left: '33%', width: '600px', height: '600px', backgroundColor: 'rgba(109,40,217,0.15)', borderRadius: '50%', filter: 'blur(140px)' }} />
       </div>
 
-      <div className="relative z-10 flex flex-col items-center flex-1 justify-center pt-32 pb-20 px-4">
-        <motion.div variants={container} initial="hidden" animate="show" className="text-center max-w-4xl mx-auto flex flex-col items-center">
+      <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, justifyContent: 'center', paddingTop: '128px', paddingBottom: '80px', paddingLeft: '16px', paddingRight: '16px' }}>
+        <motion.div variants={container} initial="hidden" animate="show" style={{ textAlign: 'center', maxWidth: '896px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           
-          <motion.div variants={item} className="mb-8">
-            <div className="glass px-4 py-2 flex items-center gap-2 rounded-full inline-flex border-[var(--glass-border)] text-sm font-medium">
-              <span className="text-[var(--accent)]">✦</span>
-              <span className="text-[var(--text)]">Now in Beta</span>
+          <motion.div variants={item} style={{ marginBottom: '32px' }}>
+            <div className="glass" style={{ padding: '8px 16px', display: 'inline-flex', alignItems: 'center', gap: '8px', borderRadius: '9999px', fontSize: '14px', fontWeight: 500 }}>
+              <span style={{ color: 'var(--accent)' }}>✦</span>
+              <span style={{ color: 'var(--text)' }}>Now in Beta</span>
             </div>
           </motion.div>
 
-          <h1 className="text-5xl sm:text-7xl font-bold tracking-tight leading-[1.1] mb-6 flex flex-col">
+          <h1 style={{ fontSize: 'min(72px, 12vw)', fontWeight: 'bold', letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '24px', display: 'flex', flexDirection: 'column' }}>
             {titleWords.map((word, i) => (
-              <motion.span key={i} variants={item} className="text-white block">
+              <motion.span key={i} variants={item} style={{ color: 'white', display: 'block' }}>
                 {word}
               </motion.span>
             ))}
           </h1>
 
-          <motion.p variants={item} className="text-[18px] text-[var(--text-muted)] max-w-2xl mx-auto mb-10 leading-relaxed">
+          <motion.p variants={item} style={{ fontSize: '18px', color: 'var(--text-muted)', maxWidth: '672px', margin: '0 auto 40px auto', lineHeight: 1.6 }}>
             Study with focus. Build in public. Grow together.
           </motion.p>
           
-          <motion.div variants={item} className="flex flex-col sm:flex-row items-center gap-4 mb-8 w-full sm:w-auto">
+          <motion.div variants={item} style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: '16px', marginBottom: '32px', width: '100%' }}>
             <SignInButton mode="modal" fallbackRedirectUrl="/setup">
               <motion.button 
                 whileHover={{ scale: 1.03, boxShadow: '0 0 20px var(--accent-glow)' }}
                 whileTap={{ scale: 0.97 }}
-                className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[var(--accent)] text-white font-semibold text-lg transition-colors hover:bg-[#8B5CF6]"
+                style={{ padding: '14px 32px', borderRadius: '9999px', backgroundColor: 'var(--accent)', color: 'white', fontWeight: 600, fontSize: '18px', border: 'none', cursor: 'pointer', transition: 'background-color 0.2s' }}
               >
                 Get Started
               </motion.button>
             </SignInButton>
             
             <motion.button 
+              className="glass"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="glass w-full sm:w-auto px-8 py-3.5 rounded-full text-white font-semibold text-lg hover:bg-[var(--glass-border)] transition-colors"
+              style={{ padding: '14px 32px', borderRadius: '9999px', color: 'white', fontWeight: 600, fontSize: '18px', cursor: 'pointer', transition: 'background-color 0.2s' }}
             >
               Learn More
             </motion.button>
           </motion.div>
 
-          <motion.span variants={item} className="text-xs text-[var(--text-muted)] tracking-wider uppercase font-semibold">
+          <motion.span variants={item} style={{ fontSize: '12px', color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase', fontWeight: 600 }}>
             Join 0 focused students
           </motion.span>
         </motion.div>
 
-        {/* Features Row - Scrolling reveals could use IntersectionObserver, but simple animate mount here */}
+        {/* Features Row */}
         <motion.div 
           initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }} 
-          className="grid sm:grid-cols-3 gap-6 w-full max-w-5xl mt-32"
+          style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '24px', width: '100%', maxWidth: '1024px', marginTop: '128px' }}
         >
-          <div className="glass p-6 group hover:-translate-y-1 transition-transform duration-300">
-            <div className="w-12 h-12 rounded-2xl bg-[var(--glass)] flex items-center justify-center mb-4 border border-[var(--glass-border)] group-hover:border-[var(--accent)] transition-colors">
-              <Target className="w-6 h-6 text-white" />
+          {[{
+            icon: Target,
+            title: "Deep Focus",
+            desc: "Pomodoro sessions that actually work."
+          }, {
+            icon: Users,
+            title: "Study Social",
+            desc: "Learn with friends, not alone."
+          }, {
+            icon: Bot,
+            title: "AI Coach",
+            desc: "Guidance that adapts to you."
+          }].map((feature, idx) => (
+            <div key={idx} className="glass" style={{ flex: '1 1 250px', padding: '24px', transition: 'transform 0.3s' }} 
+                 onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
+                 onMouseLeave={e => e.currentTarget.style.transform = 'none'}
+            >
+              <div style={{ width: '48px', height: '48px', borderRadius: '16px', backgroundColor: 'var(--glass)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px', border: '1px solid var(--glass-border)' }}>
+                <feature.icon style={{ width: '24px', height: '24px', color: 'white' }} />
+              </div>
+              <h3 style={{ fontSize: '20px', fontWeight: 'bold', color: 'white', marginBottom: '8px' }}>{feature.title}</h3>
+              <p style={{ color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>{feature.desc}</p>
             </div>
-            <h3 className="text-xl font-bold text-white mb-2">Deep Focus</h3>
-            <p className="text-[var(--text-muted)] leading-relaxed">Pomodoro sessions that actually work.</p>
-          </div>
-          <div className="glass p-6 group hover:-translate-y-1 transition-transform duration-300">
-            <div className="w-12 h-12 rounded-2xl bg-[var(--glass)] flex items-center justify-center mb-4 border border-[var(--glass-border)] group-hover:border-[var(--accent)] transition-colors">
-              <Users className="w-6 h-6 text-white" />
-            </div>
-            <h3 className="text-xl font-bold text-white mb-2">Study Social</h3>
-            <p className="text-[var(--text-muted)] leading-relaxed">Learn with friends, not alone.</p>
-          </div>
-          <div className="glass p-6 group hover:-translate-y-1 transition-transform duration-300">
-            <div className="w-12 h-12 rounded-2xl bg-[var(--glass)] flex items-center justify-center mb-4 border border-[var(--glass-border)] group-hover:border-[var(--accent)] transition-colors">
-              <Bot className="w-6 h-6 text-white" />
-            </div>
-            <h3 className="text-xl font-bold text-white mb-2">AI Coach</h3>
-            <p className="text-[var(--text-muted)] leading-relaxed">Guidance that adapts to you.</p>
-          </div>
+          ))}
         </motion.div>
       </div>
     </main>

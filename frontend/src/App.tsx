@@ -21,8 +21,8 @@ const pageVariants = {
 } as const;
 
 const LoadingFallback = () => (
-  <div className="flex-1 flex items-center justify-center min-h-screen bg-[var(--bg)]">
-    <div className="w-8 h-8 rounded-full border-2 border-[var(--accent)] border-t-transparent animate-spin" />
+  <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: 'var(--bg)' }}>
+    <div style={{ width: '32px', height: '32px', borderRadius: '50%', border: '2px solid var(--accent)', borderTopColor: 'transparent' }} className="animate-spin" />
   </div>
 );
 
@@ -32,7 +32,7 @@ const PageWrapper = ({ children }: { children: React.ReactNode }) => (
     initial="initial"
     animate="animate"
     exit="exit"
-    className="flex-1 flex flex-col w-full min-h-screen"
+    style={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', minHeight: '100vh' }}
   >
     {children}
   </motion.div>
@@ -70,7 +70,7 @@ export default function App() {
   return (
     <ClerkProvider publishableKey={clerkPubKey}>
       <BrowserRouter>
-        <div className="min-h-screen flex flex-col font-sans">
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', fontFamily: 'sans-serif' }}>
           <AnimatedRoutes />
         </div>
       </BrowserRouter>

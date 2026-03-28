@@ -1,49 +1,39 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base {
-  :root {
-    --bg: #08080A;
-    --surface: #111114;
-    --surface-2: #1A1A1F;
-    --border: #ffffff0f;
-    --accent: #7C3AED;
-    --accent-glow: rgba(124, 58, 237, 0.25);
-    --text: #F0F0FF;
-    --text-muted: #666680;
-    --glass: rgba(255, 255, 255, 0.03);
-    --glass-border: rgba(255, 255, 255, 0.08);
-
-    --background: 240 10% 4%;
-    --foreground: 240 10% 98%;
-    --card: 240 10% 7%;
-    --card-foreground: 240 10% 98%;
-    --popover: 240 10% 7%;
-    --popover-foreground: 240 10% 98%;
-    --primary: 262 80% 50%;
-    --primary-foreground: 0 0% 100%;
-  }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+:root {
+  --bg: #08080A;
+  --surface: #111114;
+  --surface-2: #1A1A1F;
+  --border: #ffffff0f;
+  --accent: #7C3AED;
+  --accent-glow: rgba(124, 58, 237, 0.25);
+  --text: #F0F0FF;
+  --text-muted: #666680;
+  --glass: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
 }
 
-@layer components {
-  .glass {
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 16px;
-  }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.glass {
+  background: var(--glass) !important;
+  border: 1px solid var(--glass-border) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-radius: 16px;
 }
 
 @keyframes float1 {
@@ -64,6 +54,12 @@
 .animate-float-1 { animation: float1 10s ease-in-out infinite alternate; }
 .animate-float-2 { animation: float2 12s ease-in-out infinite alternate; }
 .animate-float-3 { animation: float3 8s ease-in-out infinite alternate; }
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin { animation: spin 1s linear infinite; }
 
 .bg-dot-grid {
   background-image: radial-gradient(var(--glass-border) 1px, transparent 1px);

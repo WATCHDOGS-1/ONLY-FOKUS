@@ -13,7 +13,7 @@ const CountUp = ({ value, label }: { value: number, label: string }) => {
     
     const incrementTime = Math.max(10, duration / value);
     const timer = setInterval(() => {
-      start += Math.ceil(value / 50); // Increment chunk
+      start += Math.ceil(value / 50);
       if (start >= value) {
         start = value;
         clearInterval(timer);
@@ -25,9 +25,13 @@ const CountUp = ({ value, label }: { value: number, label: string }) => {
   }, [value]);
 
   return (
-    <motion.div whileHover={{ y: -4, boxShadow: '0 0 30px rgba(124,58,237,0.2)' }} className="glass p-6 flex flex-col items-start transition-all">
-      <span className="text-[var(--text-muted)] font-medium text-sm mb-2">{label}</span>
-      <span className="text-3xl font-extrabold text-white tracking-tight">{count}</span>
+    <motion.div 
+      whileHover={{ y: -4, boxShadow: '0 0 30px rgba(124,58,237,0.2)' }} 
+      className="glass"
+      style={{ padding: '24px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', transition: 'all 0.3s' }}
+    >
+      <span style={{ color: 'var(--text-muted)', fontWeight: 500, fontSize: '14px', marginBottom: '8px' }}>{label}</span>
+      <span style={{ fontSize: '30px', fontWeight: 800, color: 'white', letterSpacing: '-0.02em' }}>{count}</span>
     </motion.div>
   );
 }
@@ -66,7 +70,7 @@ export default function Profile() {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/follow/${id}/stats`);
     if (res.ok) {
       const data = await res.json();
-      setStats({ ...data, totalHours: 42, streak: 12 }); // Mocked derived
+      setStats({ ...data, totalHours: 42, streak: 12 });
     }
   };
 
@@ -84,25 +88,25 @@ export default function Profile() {
     });
   };
 
-  if (loading) return null; // Using suspense fallback ideally, but fine for now
-  if (!profile) return <div className="p-12 text-center text-white pt-32">Profile not found</div>;
+  if (loading) return null;
+  if (!profile) return <div style={{ padding: '48px', textAlign: 'center', color: 'white', paddingTop: '128px' }}>Profile not found</div>;
 
   const isSelf = profile.clerk_id === currentUser?.id;
 
   return (
-    <main className="flex-1 w-full bg-[var(--bg)] pb-24">
+    <main style={{ flex: 1, width: '100%', backgroundColor: 'var(--bg)', paddingBottom: '96px', overflowX: 'hidden' }}>
       {/* Cover Header */}
-      <div className="h-[180px] w-full bg-gradient-to-b from-[var(--accent)]/40 to-transparent relative" />
+      <div style={{ height: '180px', width: '100%', background: 'linear-gradient(180deg, rgba(124,58,237,0.4) 0%, rgba(8,8,10,1) 100%)', position: 'relative' }} />
 
-      <div className="max-w-4xl mx-auto px-6 -mt-10 relative z-10 w-full mb-12">
-        <div className="flex flex-col md:flex-row items-end justify-between gap-6 ml-8">
-          <div className="flex gap-6 items-end">
+      <div style={{ maxWidth: '896px', margin: '-40px auto 0 auto', padding: '0 24px', position: 'relative', zIndex: 10, width: '100%', marginBottom: '48px' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: '24px', marginLeft: '32px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-end' }}>
             {/* Overlapping Avatar */}
-            <div className="w-[80px] h-[80px] rounded-full border-4 border-[var(--bg)] ring-2 ring-[var(--accent)] bg-[var(--surface)] shrink-0 overflow-hidden relative">
+            <div style={{ width: '80px', height: '80px', borderRadius: '50%', border: '4px solid var(--bg)', outline: '2px solid var(--accent)', backgroundColor: 'var(--surface)', flexShrink: 0, overflow: 'hidden', position: 'relative' }}>
               {profile.avatar_url ? (
-                <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
+                <img src={profile.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               ) : (
-                <div className="w-full h-full flex items-center justify-center font-bold text-xl text-[var(--accent)]">
+                <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '20px', color: 'var(--accent)' }}>
                   {profile.display_name?.charAt(0)}
                 </div>
               )}
@@ -113,11 +117,14 @@ export default function Profile() {
             <motion.button 
               whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
               onClick={handleFollowToggle}
-              className={`px-6 py-2 rounded-full font-semibold transition-all ${
-                isFollowing 
-                  ? 'glass hover:bg-[var(--glass-border)] text-white !border-white/20' 
-                  : 'bg-[var(--accent)] text-white hover:bg-[#8B5CF6] shadow-[0_0_15px_var(--accent-glow)]'
-              }`}
+              className={isFollowing ? 'glass' : ''}
+              style={
+                isFollowing ? {
+                   padding: '8px 24px', borderRadius: '9999px', fontWeight: 600, color: 'white', border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', transition: 'all 0.2s', outline: 'none'
+                } : {
+                   padding: '8px 24px', borderRadius: '9999px', fontWeight: 600, color: 'white', backgroundColor: 'var(--accent)', border: 'none', cursor: 'pointer', transition: 'all 0.2s', boxShadow: '0 0 15px var(--accent-glow)', outline: 'none'
+                }
+              }
             >
               {isFollowing ? 'Following' : 'Follow'}
             </motion.button>
@@ -125,14 +132,14 @@ export default function Profile() {
         </div>
 
         {/* Info */}
-        <div className="mt-4 ml-8">
-          <h1 className="text-[20px] font-bold text-white">{profile.display_name}</h1>
-          <p className="text-[var(--text-muted)]">@{profile.username}</p>
-          {profile.bio && <p className="text-[var(--text)] mt-4 leading-relaxed max-w-2xl">{profile.bio}</p>}
+        <div style={{ marginTop: '16px', marginLeft: '32px' }}>
+          <h1 style={{ fontSize: '20px', fontWeight: 'bold', color: 'white', margin: 0 }}>{profile.display_name}</h1>
+          <p style={{ color: 'var(--text-muted)', margin: 0 }}>@{profile.username}</p>
+          {profile.bio && <p style={{ color: 'var(--text)', marginTop: '16px', lineHeight: 1.6, maxWidth: '672px', margin: '16px 0 0 0' }}>{profile.bio}</p>}
         </div>
 
         {/* Stats Row */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-12 w-full">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px', marginTop: '48px', width: '100%' }}>
           <CountUp value={stats.followers} label="Followers" />
           <CountUp value={stats.following} label="Following" />
           <CountUp value={stats.totalHours} label="Focus Hours" />
@@ -140,24 +147,26 @@ export default function Profile() {
         </div>
 
         {/* Tabs Segment */}
-        <div className="mt-16 w-full">
-          <div className="flex border-b border-[var(--glass-border)] gap-8">
+        <div style={{ marginTop: '64px', width: '100%' }}>
+          <div style={{ display: 'flex', borderBottom: '1px solid var(--glass-border)', gap: '32px' }}>
             {['Sessions', 'About'].map(tab => (
               <button 
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`pb-4 text-sm font-semibold relative transition-colors ${activeTab === tab ? 'text-white' : 'text-[var(--text-muted)] hover:text-white'}`}
+                style={{ paddingBottom: '16px', fontSize: '14px', fontWeight: 600, backgroundColor: 'transparent', border: 'none', outline: 'none', cursor: 'pointer', position: 'relative', transition: 'color 0.2s', color: activeTab === tab ? 'white' : 'var(--text-muted)' }}
+                onMouseEnter={e => e.currentTarget.style.color = 'white'}
+                onMouseLeave={e => e.currentTarget.style.color = activeTab === tab ? 'white' : 'var(--text-muted)'}
               >
                 {tab}
                 {activeTab === tab && (
-                  <motion.div layoutId="profile-tab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-[var(--accent)]" />
+                  <motion.div layoutId="profile-tab" style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '2px', backgroundColor: 'var(--accent)' }} />
                 )}
               </button>
             ))}
           </div>
           
           {/* Content Area */}
-          <div className="py-16 text-center text-[var(--text-muted)]">
+          <div style={{ padding: '64px 0', textAlign: 'center', color: 'var(--text-muted)' }}>
              No {activeTab.toLowerCase()} data yet.
           </div>
         </div>

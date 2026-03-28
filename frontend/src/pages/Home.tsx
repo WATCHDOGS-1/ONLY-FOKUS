@@ -23,82 +23,100 @@ export default function Home() {
   };
 
   return (
-    <div className="flex-1 flex w-full max-w-[1400px] mx-auto min-h-screen pt-16">
+    <div style={{ flex: 1, display: 'flex', width: '100%', maxWidth: '1400px', margin: '0 auto', minHeight: '100vh', paddingTop: '64px' }}>
       {/* Left Sidebar Fixed */}
-      <aside className="fixed left-0 lg:left-[calc(50%-700px)] w-[240px] top-16 bottom-0 hidden lg:flex flex-col py-8 px-6 border-r border-[var(--glass-border)]/50">
-        <div className="flex flex-col gap-2 flex-1">
+      <aside style={{ 
+        position: 'fixed', left: 'calc(max(0px, 50% - 700px))', top: '64px', bottom: 0, 
+        width: '240px', display: 'flex', flexDirection: 'column', 
+        padding: '32px 24px', borderRight: '1px solid rgba(255,255,255,0.04)' 
+      }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', flex: 1 }}>
           {navItems.map((item) => {
             const isActive = location.pathname.startsWith(item.path);
             return (
               <Link 
                 key={item.label} 
                 to={item.path} 
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all font-medium ${
-                  isActive ? 'bg-[var(--accent)]/10 text-[var(--accent)]' : 'text-[var(--text-muted)] hover:text-white hover:bg-[var(--glass)]'
-                }`}
+                className={isActive ? '' : 'hover:bg-glass hover:text-white'}
+                style={{
+                   display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px', borderRadius: '8px', transition: 'all 0.2s', fontWeight: 500, textDecoration: 'none',
+                   backgroundColor: isActive ? 'var(--accent-glow)' : 'transparent',
+                   color: isActive ? 'var(--accent)' : 'var(--text-muted)'
+                }}
+                onMouseEnter={!isActive ? e => { e.currentTarget.style.backgroundColor = 'var(--glass)'; e.currentTarget.style.color = 'white'; } : undefined}
+                onMouseLeave={!isActive ? e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)'; } : undefined}
               >
-                <item.icon className="w-5 h-5" />
+                <item.icon style={{ width: '20px', height: '20px' }} />
                 {item.label}
               </Link>
             )
           })}
         </div>
         
-        <Link to={`/${user?.username}`} className="mt-auto flex items-center gap-3 group px-2 hover:bg-[var(--glass)] p-2 rounded-lg transition-colors">
-          <img src={user?.imageUrl} alt="Avatar" className="w-10 h-10 rounded-full border border-[var(--glass-border)]" />
-          <div className="flex flex-col">
-            <span className="text-sm font-semibold text-white group-hover:text-[var(--accent)] transition-colors">{user?.firstName || user?.username}</span>
-            <span className="text-xs text-[var(--text-muted)]">Profile</span>
+        <Link to={`/${user?.username}`} style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', gap: '12px', padding: '8px', borderRadius: '8px', textDecoration: 'none', transition: 'background-color 0.2s' }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--glass)'; (e.currentTarget.children[1].children[0] as HTMLElement).style.color = 'var(--accent)'; }}
+              onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; (e.currentTarget.children[1].children[0] as HTMLElement).style.color = 'white'; }}
+        >
+          <img src={user?.imageUrl} alt="Avatar" style={{ width: '40px', height: '40px', borderRadius: '50%', border: '1px solid var(--glass-border)' }} />
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <span style={{ fontSize: '14px', fontWeight: 600, color: 'white', transition: 'color 0.2s' }}>{user?.firstName || user?.username}</span>
+            <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Profile</span>
           </div>
         </Link>
       </aside>
 
       {/* Main Container Push Right */}
-      <main className="flex-1 lg:ml-[240px] xl:mr-[280px] p-6 lg:p-10 flex flex-col">
-        <header className="mb-12">
+      <main style={{ flex: 1, marginLeft: '240px', marginRight: '280px', padding: '40px', display: 'flex', flexDirection: 'column' }}>
+        <header style={{ marginBottom: '48px' }}>
           <motion.h1 
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-            className="text-3xl lg:text-4xl font-bold tracking-tight text-white mb-2"
+            style={{ fontSize: '36px', fontWeight: 'bold', letterSpacing: '-0.02em', color: 'white', marginBottom: '8px', margin: 0 }}
           >
-            {getGreeting()}, <span className="text-[var(--accent)]">{user?.firstName || user?.username}</span>
+            {getGreeting()}, <span style={{ color: 'var(--accent)' }}>{user?.firstName || user?.username}</span>
           </motion.h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }} className="text-[var(--text-muted)] font-medium">
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }} style={{ color: 'var(--text-muted)', fontWeight: 500, margin: 0 }}>
             Ready for a deep work session?
           </motion.p>
         </header>
 
-        <section className="flex-1 flex flex-col items-center justify-center text-center max-w-lg mx-auto w-full glass p-12">
-          <div className="w-20 h-20 rounded-full bg-[var(--surface-2)] flex items-center justify-center mb-6 shadow-[0_0_30px_var(--accent-glow)] border border-[var(--glass-border)]">
-            <Target className="w-10 h-10 text-[var(--accent)]" />
+        <section className="glass" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', maxWidth: '512px', margin: '0 auto', width: '100%', padding: '48px' }}>
+          <div style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'var(--surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px', boxShadow: '0 0 30px var(--accent-glow)', border: '1px solid var(--glass-border)' }}>
+            <Target style={{ width: '40px', height: '40px', color: 'var(--accent)' }} />
           </div>
-          <h2 className="text-2xl font-bold text-white mb-3">Your focus journey starts here</h2>
-          <p className="text-[var(--text-muted)] mb-8">Start your first session to see your stats</p>
+          <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: 'white', marginBottom: '12px', margin: 0 }}>Your focus journey starts here</h2>
+          <p style={{ color: 'var(--text-muted)', marginBottom: '32px', margin: '0 0 32px 0' }}>Start your first session to see your stats</p>
           <motion.button 
             whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-            className="flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--accent)] text-white font-semibold hover:bg-[#8B5CF6] transition-colors"
+            style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', borderRadius: '9999px', backgroundColor: 'var(--accent)', color: 'white', fontWeight: 600, outline: 'none', border: 'none', cursor: 'pointer', transition: 'background-color 0.2s' }}
+            onMouseEnter={e => e.currentTarget.style.backgroundColor = '#8B5CF6'}
+            onMouseLeave={e => e.currentTarget.style.backgroundColor = 'var(--accent)'}
           >
-            <Plus className="w-5 h-5" />
+            <Plus style={{ width: '20px', height: '20px' }} />
             Start Session
           </motion.button>
         </section>
       </main>
 
       {/* Right Sidebar Fixed */}
-      <aside className="fixed right-0 lg:right-[calc(50%-700px)] w-[280px] top-16 bottom-0 hidden xl:flex flex-col py-8 px-6 border-l border-[var(--glass-border)]/50">
-        <h3 className="text-sm font-bold text-[var(--text)] uppercase tracking-wider mb-6">Leaderboard</h3>
+      <aside style={{ 
+        position: 'fixed', right: 'calc(max(0px, 50% - 700px))', top: '64px', bottom: 0, 
+        width: '280px', display: 'flex', flexDirection: 'column', 
+        padding: '32px 24px', borderLeft: '1px solid rgba(255,255,255,0.04)' 
+      }}>
+        <h3 style={{ fontSize: '14px', fontWeight: 'bold', color: 'var(--text)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '24px', margin: '0 0 24px 0' }}>Leaderboard</h3>
         
-        <div className="space-y-4">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {[1,2,3].map(i => (
-            <div key={i} className="glass p-4 opacity-50 flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-[var(--surface-2)]" />
-              <div className="flex-1 space-y-2">
-                <div className="h-3 w-16 bg-[var(--surface-2)] rounded" />
-                <div className="h-2 w-10 bg-[var(--surface-2)] rounded" />
+            <div key={i} className="glass" style={{ padding: '16px', opacity: 0.5, display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: 'var(--surface-2)' }} />
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div style={{ height: '12px', width: '64px', backgroundColor: 'var(--surface-2)', borderRadius: '4px' }} />
+                <div style={{ height: '8px', width: '40px', backgroundColor: 'var(--surface-2)', borderRadius: '4px' }} />
               </div>
-              <span className="text-xs text-[var(--text-muted)]">Top {i}</span>
+              <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Top {i}</span>
             </div>
           ))}
-          <p className="text-xs text-[var(--text-muted)] text-center mt-6">Coming soon</p>
+          <p style={{ fontSize: '12px', color: 'var(--text-muted)', textAlign: 'center', marginTop: '24px', margin: '24px 0 0 0' }}>Coming soon</p>
         </div>
       </aside>
     </div>
