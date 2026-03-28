@@ -1,7 +1,6 @@
 import { UserButton, useUser, useAuth } from '@clerk/clerk-react';
 import { Focus } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 
 export default function Navbar() {
   const { user } = useUser();
