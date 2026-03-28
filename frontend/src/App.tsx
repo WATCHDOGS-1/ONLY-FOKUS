@@ -1,5 +1,6 @@
 import { ClerkProvider, SignedIn } from '@clerk/clerk-react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import CosmicBackground from './components/CosmicBackground';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { Suspense } from 'react';
 
@@ -70,6 +71,7 @@ export default function App() {
   return (
     <ClerkProvider publishableKey={clerkPubKey}>
       <BrowserRouter>
+        <CosmicBackground />
         <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', fontFamily: 'sans-serif' }}>
           <AnimatedRoutes />
         </div>
