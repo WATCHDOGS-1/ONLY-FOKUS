@@ -1,64 +1,71 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 4%; /* #0A0A0A */
-    --foreground: 0 0% 100%; /* #FFFFFF */
-    
-    --card: 0 0% 7%; /* #111111 */
-    --card-foreground: 0 0% 100%;
-    
-    --popover: 0 0% 7%;
-    --popover-foreground: 0 0% 100%;
-    
-    --primary: 262 80% 50%; /* #7C3AED */
+    --bg: #08080A;
+    --surface: #111114;
+    --surface-2: #1A1A1F;
+    --border: #ffffff0f;
+    --accent: #7C3AED;
+    --accent-glow: rgba(124, 58, 237, 0.25);
+    --text: #F0F0FF;
+    --text-muted: #666680;
+    --glass: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+
+    --background: 240 10% 4%;
+    --foreground: 240 10% 98%;
+    --card: 240 10% 7%;
+    --card-foreground: 240 10% 98%;
+    --popover: 240 10% 7%;
+    --popover-foreground: 240 10% 98%;
+    --primary: 262 80% 50%;
     --primary-foreground: 0 0% 100%;
-    
-    --secondary: 0 0% 10%; /* #1A1A1A */
-    --secondary-foreground: 0 0% 53%; /* #888888 */
-    
-    --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 53%;
-    
-    --accent: 262 80% 50%;
-    --accent-foreground: 0 0% 100%;
-    
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    
-    --border: 0 0% 13%; /* #222222 */
-    --input: 0 0% 13%;
-    --ring: 262 80% 50%; /* #7C3AED glow */
-    --radius: 0.75rem;
-
-    --font-heading: 'Inter', sans-serif;
-    --font-sans: 'Inter', sans-serif;
   }
-}
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body, html {
-    @apply bg-background text-foreground font-sans antialiased selection:bg-primary/30;
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
 @layer components {
-  .glass-nav {
-    @apply bg-background/50 backdrop-blur-xl border-b border-border z-50;
+  .glass {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 16px;
   }
-  .card-hover {
-    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/20 border border-border bg-[#111111] rounded-2xl overflow-hidden;
-  }
-  .bg-grid {
-    background-size: 30px 30px;
-    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  }
+}
+
+@keyframes float1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(50px, -50px) scale(1.05); }
+}
+
+@keyframes float2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-50px, 50px) scale(1.1); }
+}
+
+@keyframes float3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, 40px) scale(0.95); }
+}
+
+.animate-float-1 { animation: float1 10s ease-in-out infinite alternate; }
+.animate-float-2 { animation: float2 12s ease-in-out infinite alternate; }
+.animate-float-3 { animation: float3 8s ease-in-out infinite alternate; }
+
+.bg-dot-grid {
+  background-image: radial-gradient(var(--glass-border) 1px, transparent 1px);
+  background-size: 24px 24px;
 }

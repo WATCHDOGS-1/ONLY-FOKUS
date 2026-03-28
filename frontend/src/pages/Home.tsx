@@ -1,73 +1,106 @@
 import { useUser } from '@clerk/clerk-react';
-import { Home as HomeIcon, Compass, User, Settings, Focus } from 'lucide-react';
+import { Home as HomeIcon, Compass, Target, StickyNote, Settings, Plus } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function Home() {
   const { user } = useUser();
+  const location = useLocation();
 
   const navItems = [
-    { icon: HomeIcon, label: 'Home', path: '/home', active: true },
+    { icon: HomeIcon, label: 'Home', path: '/home' },
     { icon: Compass, label: 'Explore', path: '/explore' },
-    { icon: User, label: 'Profile', path: `/${user?.username}` },
+    { icon: Target, label: 'Rooms', path: '/rooms' },
+    { icon: StickyNote, label: 'Notes', path: '/notes' },
     { icon: Settings, label: 'Settings', path: '/settings' },
   ];
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good morning';
+    if (hour < 18) return 'Good afternoon';
+    return 'Good evening';
+  };
+
   return (
-    <main className="flex-1 max-w-6xl w-full mx-auto p-4 md:p-6 lg:p-8 flex gap-8 min-h-[calc(100vh-64px)] overflow-hidden">
-      {/* Left Sidebar */}
-      <aside className="hidden lg:flex flex-col w-64 h-full fixed top-24 left-max pb-8 shrink-0">
-        <div className="flex flex-col gap-2 flex-1 pt-4">
-          {navItems.map((item) => (
-            <Link key={item.label} to={item.path} className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all font-semibold ${item.active ? 'bg-primary/10 text-primary' : 'text-[#888888] hover:text-white hover:bg-[#111111]'}`}>
-              <item.icon className={`w-6 h-6 ${item.active ? 'text-primary' : 'text-[#888888]'}`} />
-              {item.label}
-            </Link>
-          ))}
+    <div className="flex-1 flex w-full max-w-[1400px] mx-auto min-h-screen pt-16">
+      {/* Left Sidebar Fixed */}
+      <aside className="fixed left-0 lg:left-[calc(50%-700px)] w-[240px] top-16 bottom-0 hidden lg:flex flex-col py-8 px-6 border-r border-[var(--glass-border)]/50">
+        <div className="flex flex-col gap-2 flex-1">
+          {navItems.map((item) => {
+            const isActive = location.pathname.startsWith(item.path);
+            return (
+              <Link 
+                key={item.label} 
+                to={item.path} 
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all font-medium ${
+                  isActive ? 'bg-[var(--accent)]/10 text-[var(--accent)]' : 'text-[var(--text-muted)] hover:text-white hover:bg-[var(--glass)]'
+                }`}
+              >
+                <item.icon className="w-5 h-5" />
+                {item.label}
+              </Link>
+            )
+          })}
         </div>
+        
+        <Link to={`/${user?.username}`} className="mt-auto flex items-center gap-3 group px-2 hover:bg-[var(--glass)] p-2 rounded-lg transition-colors">
+          <img src={user?.imageUrl} alt="Avatar" className="w-10 h-10 rounded-full border border-[var(--glass-border)]" />
+          <div className="flex flex-col">
+            <span className="text-sm font-semibold text-white group-hover:text-[var(--accent)] transition-colors">{user?.firstName || user?.username}</span>
+            <span className="text-xs text-[var(--text-muted)]">Profile</span>
+          </div>
+        </Link>
       </aside>
 
-      {/* Main Content Area */}
-      <section className="flex-1 lg:ml-[280px] lg:mr-[280px] min-h-full rounded-3xl bg-[#0A0A0A] border border-[#222222] shadow-[0_0_50px_rgba(0,0,0,0.5)] flex flex-col items-center justify-center relative overflow-hidden group">
-        <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none mix-blend-overlay" />
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }} 
-          animate={{ opacity: 1, scale: 1 }} 
-          transition={{ duration: 0.5, type: 'spring' }}
-          className="text-center space-y-6 z-10"
-        >
-          <motion.div 
-            animate={{ rotate: 360 }} 
-            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-            className="w-24 h-24 rounded-3xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto shadow-[0_0_40px_rgba(124,58,237,0.2)]"
+      {/* Main Container Push Right */}
+      <main className="flex-1 lg:ml-[240px] xl:mr-[280px] p-6 lg:p-10 flex flex-col">
+        <header className="mb-12">
+          <motion.h1 
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
+            className="text-3xl lg:text-4xl font-bold tracking-tight text-white mb-2"
           >
-            <Focus className="w-12 h-12 text-primary" />
-          </motion.div>
-          
-          <div className="space-y-3">
-            <h1 className="text-3xl font-extrabold tracking-tight text-white">Your focus journey starts here.</h1>
-            <p className="text-[#888888] max-w-sm mx-auto font-medium text-lg leading-relaxed">
-              No sessions yet. Let's start building your streak and leveling up today.
-            </p>
+            {getGreeting()}, <span className="text-[var(--accent)]">{user?.firstName || user?.username}</span>
+          </motion.h1>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }} className="text-[var(--text-muted)] font-medium">
+            Ready for a deep work session?
+          </motion.p>
+        </header>
+
+        <section className="flex-1 flex flex-col items-center justify-center text-center max-w-lg mx-auto w-full glass p-12">
+          <div className="w-20 h-20 rounded-full bg-[var(--surface-2)] flex items-center justify-center mb-6 shadow-[0_0_30px_var(--accent-glow)] border border-[var(--glass-border)]">
+            <Target className="w-10 h-10 text-[var(--accent)]" />
           </div>
-          
+          <h2 className="text-2xl font-bold text-white mb-3">Your focus journey starts here</h2>
+          <p className="text-[var(--text-muted)] mb-8">Start your first session to see your stats</p>
           <motion.button 
-            whileHover={{ scale: 1.05 }} 
-            whileTap={{ scale: 0.95 }}
-            className="mt-4 px-8 py-4 bg-white text-black font-bold uppercase tracking-wider text-sm rounded-xl shadow-[0_0_30px_rgba(255,255,255,0.15)] hover:bg-[#EAEAEA] transition-all"
+            whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+            className="flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--accent)] text-white font-semibold hover:bg-[#8B5CF6] transition-colors"
           >
+            <Plus className="w-5 h-5" />
             Start Session
           </motion.button>
-        </motion.div>
-      </section>
+        </section>
+      </main>
 
-      {/* Right Sidebar Placeholder */}
-      <aside className="hidden xl:flex flex-col w-64 h-[calc(100vh-120px)] fixed top-24 right-max shrink-0 bg-[#111111] rounded-2xl border border-[#222222] p-6">
-        <h3 className="text-sm font-bold text-[#888888] uppercase tracking-widest mb-4">Activity Feed</h3>
-        <div className="flex-1 flex items-center justify-center opacity-50">
-          <p className="text-[#888888] text-sm text-center">Friends activity coming soon.</p>
+      {/* Right Sidebar Fixed */}
+      <aside className="fixed right-0 lg:right-[calc(50%-700px)] w-[280px] top-16 bottom-0 hidden xl:flex flex-col py-8 px-6 border-l border-[var(--glass-border)]/50">
+        <h3 className="text-sm font-bold text-[var(--text)] uppercase tracking-wider mb-6">Leaderboard</h3>
+        
+        <div className="space-y-4">
+          {[1,2,3].map(i => (
+            <div key={i} className="glass p-4 opacity-50 flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-[var(--surface-2)]" />
+              <div className="flex-1 space-y-2">
+                <div className="h-3 w-16 bg-[var(--surface-2)] rounded" />
+                <div className="h-2 w-10 bg-[var(--surface-2)] rounded" />
+              </div>
+              <span className="text-xs text-[var(--text-muted)]">Top {i}</span>
+            </div>
+          ))}
+          <p className="text-xs text-[var(--text-muted)] text-center mt-6">Coming soon</p>
         </div>
       </aside>
-    </main>
+    </div>
   );
 }
