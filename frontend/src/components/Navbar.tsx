@@ -1,5 +1,4 @@
 import { UserButton, useAuth } from '@clerk/clerk-react';
-import { Target } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -13,30 +12,28 @@ export default function Navbar() {
       transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
       style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, 
-        padding: '16px 40px', display: 'flex', justifyContent: 'space-between', 
-        alignItems: 'center', background: 'rgba(3,2,10,0.6)', 
+        padding: '24px 48px', display: 'flex', justifyContent: 'space-between', 
+        alignItems: 'center', background: 'rgba(5,10,3,0.3)', 
         backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(255,255,255,0.05)'
+        borderBottom: '1px solid rgba(255,255,255,0.02)'
       }}
     >
-      <Link to="/home" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
-        <Target style={{ width: '20px', height: '20px', color: '#9333EA' }} />
-        <span style={{ fontWeight: 700, fontSize: '18px', color: '#F0EAFF', letterSpacing: '-0.02em' }}>OnlyFocus</span>
-        <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#9333EA', marginLeft: '2px' }} />
+      <Link to="/home" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+        <span style={{ fontWeight: 800, fontStyle: 'italic', fontSize: '20px', color: '#ECFCCB', letterSpacing: '-0.04em' }}>OnlyFocus</span>
       </Link>
       
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
         {isSignedIn ? (
           <UserButton 
             afterSignOutUrl="/" 
-            appearance={{ elements: { avatarBox: { width: '32px', height: '32px', borderRadius: '50%', border: '1px solid var(--border)', boxShadow: '0 0 10px rgba(147,51,234,0.3)' } } }} 
+            appearance={{ elements: { avatarBox: { width: '36px', height: '36px', borderRadius: '50%', border: '1px solid rgba(163,230,53,0.2)', boxShadow: '0 0 15px rgba(132,204,22,0.2)' } } }} 
           />
         ) : (
           <Link to="/" style={{ textDecoration: 'none' }}>
             <motion.button 
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              style={{ padding: '8px 20px', borderRadius: '9999px', background: 'linear-gradient(135deg, #7C3AED, #9333EA)', color: 'white', fontSize: '14px', fontWeight: 600, border: 'none', cursor: 'pointer', boxShadow: '0 0 15px rgba(147,51,234,0.3)' }}
+              style={{ padding: '10px 24px', borderRadius: '9999px', background: 'linear-gradient(135deg, #65A30D, #84CC16)', color: '#050A03', fontSize: '13px', fontWeight: 700, border: 'none', cursor: 'pointer', boxShadow: '0 0 20px rgba(132,204,22,0.2)', letterSpacing: '0.01em' }}
             >
               Get Started
             </motion.button>
